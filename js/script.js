@@ -1,7 +1,8 @@
 // MAIN Function
 const btnClick = () => {
     const gridArray = [];
-    let gridSize = 0
+    let gridSize = 0;
+    let counter = 0;
     const lv = document.getElementById("levels").value;
     switch(lv) {
         case 'normal':
@@ -26,7 +27,8 @@ const btnClick = () => {
 
         const box = generateGridItem(i+1, lv);
 
-        box.addEventListener("click", boxClick);
+        box.addEventListener("click", boxClick );
+        box.minesPos = mines;
 
         gridContainer.append(box);
     }
@@ -36,6 +38,26 @@ const btnClick = () => {
 
 
     gridContainer.classList.remove("none");
+    function boxClick() {
+        const num = parseInt(this.querySelector("span").textContent);
+        this.removeEventListener("click", boxClick );
+        if (mines.includes(num)) {
+            console.log (counter);
+            for (let i = 0 ; i < gridSize ; i++) { 
+                const boxControl = document.getElementsByClassName("grid-item")[i];
+                boxControl.removeEventListener("click", boxClick);
+                const numControl = parseInt(boxControl.querySelector("span").textContent);
+                if (mines.includes(numControl)) {
+                    boxControl.classList.add("boom");
+                }
+            }
+
+        }
+        else {
+            this.classList.add("active");
+            counter ++;
+        }
+    } 
 }
 
 function generateGridItem(number , lv) {
@@ -48,9 +70,7 @@ function generateGridItem(number , lv) {
 
     return newElement;
 }
-function boxClick() {
-    this.classList.add("active");
-} 
+
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }

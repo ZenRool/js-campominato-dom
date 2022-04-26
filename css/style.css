@@ -85,6 +85,10 @@ main {
     background-color: var(--cell-bg-color);
     color: white;
 }
+.grid-item.boom {
+    background-color: red;
+    color: white;
+}
 footer {
     display: flex;
     align-items: center;
